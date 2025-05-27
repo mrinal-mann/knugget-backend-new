@@ -26,14 +26,14 @@ export class OpenAIService {
   ): Promise<ServiceResponse<OpenAISummaryResponse>> {
     try {
       const transcriptText = this.formatTranscriptForAI(transcript);
-      
+
       if (transcriptText.length > MAX_TRANSCRIPT_LENGTH) {
         // Chunk large transcripts
         return this.generateSummaryFromChunks(transcript, videoMetadata);
       }
 
       const prompt = this.createSummaryPrompt(transcriptText, videoMetadata);
-      
+
       const completion = await this.client.chat.completions.create({
         model: config.openai.model,
         messages: [
@@ -92,7 +92,7 @@ export class OpenAIService {
       if (error instanceof OpenAI.APIError && error.code === 'insufficient_quota') {
         throw new AppError('AI service quota exceeded', 503);
       }
-      
+
       if (error instanceof OpenAI.APIError && error.code === 'rate_limit_exceeded') {
         throw new AppError('AI service rate limit exceeded', 429);
       }
@@ -191,13 +191,13 @@ export class OpenAIService {
   private chunkTranscript(transcript: TranscriptSegment[]): TranscriptSegment[][] {
     const chunks: TranscriptSegment[][] = [];
     const maxChunkLength = Math.floor(MAX_TRANSCRIPT_LENGTH / 3); // Conservative chunking
-    
+
     let currentChunk: TranscriptSegment[] = [];
     let currentLength = 0;
 
     for (const segment of transcript) {
       const segmentLength = segment.text.length;
-      
+
       if (currentLength + segmentLength > maxChunkLength && currentChunk.length > 0) {
         chunks.push([...currentChunk]);
         currentChunk = [segment];
@@ -342,7 +342,7 @@ Guidelines:
       });
 
       const hasResponse = !!completion.choices[0]?.message?.content;
-      
+
       return { success: true, data: hasResponse };
     } catch (error) {
       logger.error('OpenAI connection test failed', { error });

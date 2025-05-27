@@ -1,10 +1,10 @@
-import winston from 'winston';
-import { config } from './index';
+import winston from "winston";
+import { config } from "./index";
 
 // Define log format
 const logFormat = winston.format.combine(
   winston.format.timestamp({
-    format: 'YYYY-MM-DD HH:mm:ss'
+    format: "YYYY-MM-DD HH:mm:ss",
   }),
   winston.format.errors({ stack: true }),
   winston.format.json()
@@ -14,35 +14,37 @@ const logFormat = winston.format.combine(
 export const logger = winston.createLogger({
   level: config.logging.level,
   format: logFormat,
-  defaultMeta: { service: 'knugget-api' },
+  defaultMeta: { service: "knugget-api" },
   transports: [
     // Write all logs to console
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
         winston.format.simple()
-      )
+      ),
     }),
-    
+
     // Write all logs to file
     new winston.transports.File({
-      filename: 'logs/error.log',
-      level: 'error'
+      filename: "logs/error.log",
+      level: "error",
     }),
     new winston.transports.File({
-      filename: config.logging.file
-    })
-  ]
+      filename: config.logging.file,
+    }),
+  ],
 });
 
 // If we're not in production, log to console with simple format
-if (config.server.nodeEnv !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.simple()
-    )
-  }));
+if (config.server.nodeEnv !== "production") {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      ),
+    })
+  );
 }
 
 export default logger;

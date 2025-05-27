@@ -250,11 +250,11 @@ export class SummaryService {
         ...(videoId && { videoId }),
         ...(startDate &&
           endDate && {
-            createdAt: {
-              gte: new Date(startDate),
-              lte: new Date(endDate),
-            },
-          }),
+          createdAt: {
+            gte: new Date(startDate),
+            lte: new Date(endDate),
+          },
+        }),
         ...(search && {
           OR: [
             { title: { contains: search, mode: "insensitive" } },
@@ -583,11 +583,11 @@ export class SummaryService {
       const averageSummaryLength =
         completedSummariesForAvg.length > 0
           ? Math.round(
-              completedSummariesForAvg.reduce(
-                (sum, s) => sum + s.fullSummary.length,
-                0
-              ) / completedSummariesForAvg.length
-            )
+            completedSummariesForAvg.reduce(
+              (sum, s) => sum + s.fullSummary.length,
+              0
+            ) / completedSummariesForAvg.length
+          )
           : 0;
 
       return {

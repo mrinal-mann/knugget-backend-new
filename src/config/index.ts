@@ -1,12 +1,14 @@
-import dotenv from 'dotenv';
-import { z } from 'zod';
+import dotenv from "dotenv";
+import { z } from "zod";
 
 dotenv.config();
 
 const configSchema = z.object({
   // Server
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  API_BASE_URL: z.string().url().default('http://localhost:3000/api'),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
+  API_BASE_URL: z.string().url().default("http://localhost:3000/api"),
 
   // Database
   DATABASE_URL: z.string().min(1),
@@ -19,14 +21,14 @@ const configSchema = z.object({
 
   // JWT
   JWT_SECRET: z.string().min(32),
-  JWT_EXPIRES_IN: z.string().default('15m'),
+  JWT_EXPIRES_IN: z.string().default("15m"),
   REFRESH_TOKEN_SECRET: z.string().min(32),
-  REFRESH_TOKEN_EXPIRES_IN: z.string().default('7d'),
+  REFRESH_TOKEN_EXPIRES_IN: z.string().default("7d"),
 
   // OpenAI
   OPENAI_API_KEY: z.string().min(1),
-  OPENAI_MODEL: z.string().default('gpt-4-turbo-preview'),
-  OPENAI_MAX_TOKENS: z.string().transform(Number).default('4000'),
+  OPENAI_MODEL: z.string().default("gpt-4-turbo-preview"),
+  OPENAI_MAX_TOKENS: z.string().transform(Number).default("4000"),
 
   // Email (Optional)
   SMTP_HOST: z.string().optional(),
@@ -37,27 +39,31 @@ const configSchema = z.object({
   FROM_NAME: z.string().optional(),
 
   // CORS
-  ALLOWED_ORIGINS: z.string().default('http://localhost:3000,http://localhost:8000,https://knugget.com,chrome-extension://'),
+  ALLOWED_ORIGINS: z
+    .string()
+    .default(
+      "http://localhost:3000,http://localhost:8000,https://knugget.com,chrome-extension://"
+    ),
 
   // Rate Limiting
-  RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default('900000'),
-  RATE_LIMIT_MAX_REQUESTS_FREE: z.string().transform(Number).default('10'),
-  RATE_LIMIT_MAX_REQUESTS_PREMIUM: z.string().transform(Number).default('100'),
+  RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default("900000"),
+  RATE_LIMIT_MAX_REQUESTS_FREE: z.string().transform(Number).default("10"),
+  RATE_LIMIT_MAX_REQUESTS_PREMIUM: z.string().transform(Number).default("100"),
 
   // Logging
-  LOG_LEVEL: z.enum(['error', 'warn', 'info', 'debug']).default('info'),
-  LOG_FILE: z.string().default('logs/app.log'),
+  LOG_LEVEL: z.enum(["error", "warn", "info", "debug"]).default("info"),
+  LOG_FILE: z.string().default("logs/app.log"),
 
   // Credits
-  CREDITS_PER_SUMMARY: z.string().transform(Number).default('1'),
-  FREE_PLAN_MONTHLY_CREDITS: z.string().transform(Number).default('10'),
-  PREMIUM_PLAN_MONTHLY_CREDITS: z.string().transform(Number).default('1000'),
+  CREDITS_PER_SUMMARY: z.string().transform(Number).default("1"),
+  FREE_PLAN_MONTHLY_CREDITS: z.string().transform(Number).default("10"),
+  PREMIUM_PLAN_MONTHLY_CREDITS: z.string().transform(Number).default("1000"),
 });
 
 const parsed = configSchema.safeParse(process.env);
 
 if (!parsed.success) {
-  console.error('❌ Invalid environment configuration:');
+  console.error("❌ Invalid environment configuration:");
   console.error(parsed.error.format());
   process.exit(1);
 }
@@ -96,7 +102,9 @@ export const config = {
     fromName: parsed.data.FROM_NAME,
   },
   cors: {
-    allowedOrigins: parsed.data.ALLOWED_ORIGINS.split(',').map(origin => origin.trim()),
+    allowedOrigins: parsed.data.ALLOWED_ORIGINS.split(",").map((origin) =>
+      origin.trim()
+    ),
   },
   rateLimit: {
     windowMs: parsed.data.RATE_LIMIT_WINDOW_MS,
