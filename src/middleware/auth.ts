@@ -31,10 +31,9 @@ export const authenticate = async (
     let user;
 
     try {
-      // First try to verify as our JWT token
+      // FIXED: Primary JWT verification (cleaner approach)
       payload = jwt.verify(token, config.jwt.secret) as JwtPayload;
 
-      // Get user from database
       user = await prisma.user.findUnique({
         where: { id: payload.userId },
         select: {
@@ -51,8 +50,12 @@ export const authenticate = async (
           supabaseId: true,
         },
       });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
     } catch (jwtError) {
-      // If JWT verification fails, try Supabase token verification
+      // FIXED: Fallback to Supabase only if JWT fails
       try {
         const { data: supabaseUser, error: supabaseError } =
           await supabase.auth.getUser(token);
@@ -61,7 +64,7 @@ export const authenticate = async (
           throw new Error("Invalid token");
         }
 
-        // Find or create user based on Supabase user
+        // Find user by Supabase ID
         user = await prisma.user.findUnique({
           where: { supabaseId: supabaseUser.user.id },
           select: {
@@ -79,8 +82,8 @@ export const authenticate = async (
           },
         });
 
+        // Create user if doesn't exist (first-time Supabase login)
         if (!user && supabaseUser.user.email) {
-          // Create user if doesn't exist
           user = await prisma.user.create({
             data: {
               email: supabaseUser.user.email,
@@ -105,8 +108,18 @@ export const authenticate = async (
             },
           });
         }
+
+        if (!user) {
+          throw new Error("User not found");
+        }
       } catch (supabaseError) {
-        logger.error("Token verification failed", { error: supabaseError });
+        logger.error("Token verification failed", { 
+          error: supabaseError,
+          hasJWTError: !!jwtError,
+          userAgent: req.get('User-Agent'),
+          origin: req.get('Origin')
+        });
+        
         const response: ApiResponse = {
           success: false,
           error: "Invalid or expired token",
@@ -115,25 +128,22 @@ export const authenticate = async (
       }
     }
 
-    if (!user) {
-      const response: ApiResponse = {
-        success: false,
-        error: "User not found",
-      };
-      return res.status(401).json(response);
-    }
-
-    // Convert dates to strings for JSON serialization
+    // FIXED: Format user data consistently
     req.user = {
       ...user,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
-      lastLoginAt: user.lastLoginAt?.toISOString(),
+      lastLoginAt: user.lastLoginAt?.toISOString() || null,
     };
 
     next();
   } catch (error) {
-    logger.error("Authentication middleware error", { error });
+    logger.error("Authentication middleware error", { 
+      error,
+      userAgent: req.get('User-Agent'),
+      origin: req.get('Origin')
+    });
+    
     const response: ApiResponse = {
       success: false,
       error: "Authentication failed",

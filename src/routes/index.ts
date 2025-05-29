@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { ApiResponse } from '@/types';
 import { openaiService } from '@/services/openai';
+import { prisma } from '@/config/database';
 import { logger } from '@/config/logger';
 import authRoutes from './auth';
 import summaryRoutes from './summary';
@@ -8,9 +9,12 @@ import userRoutes from './user';
 
 const router = Router();
 
-// Health check endpoint
+// Enhanced health check endpoint
 router.get('/health', async (req, res) => {
   try {
+    // Test database connection
+    await prisma.$queryRaw`SELECT 1`;
+    
     // Test OpenAI connection
     const openaiTest = await openaiService.testConnection();
     
@@ -23,6 +27,8 @@ router.get('/health', async (req, res) => {
           database: 'connected',
           openai: openaiTest.success ? 'connected' : 'disconnected',
         },
+        version: '1.0.0',
+        uptime: process.uptime(),
       },
     };
 
@@ -36,6 +42,10 @@ router.get('/health', async (req, res) => {
       data: {
         status: 'unhealthy',
         timestamp: new Date().toISOString(),
+        services: {
+          database: 'disconnected',
+          openai: 'unknown',
+        },
       },
     };
 
@@ -51,6 +61,7 @@ router.get('/', (req, res) => {
       name: 'Knugget AI API',
       version: '1.0.0',
       description: 'AI-powered YouTube video summarization API',
+      environment: process.env.NODE_ENV,
       endpoints: {
         auth: '/api/auth',
         summary: '/api/summary',

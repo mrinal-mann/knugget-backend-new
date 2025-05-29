@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-// CORS configuration
+// FIXED: Enhanced CORS configuration for extension support
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -46,11 +46,17 @@ app.use(
         return callback(null, true);
       }
 
+      // Log unauthorized origin attempts in development
+      if (config.server.nodeEnv === 'development') {
+        logger.warn('CORS blocked origin:', { origin });
+      }
+
       callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    optionsSuccessStatus: 200, // Support legacy browsers
   })
 );
 
@@ -66,6 +72,10 @@ app.use(
         logger.info(message.trim());
       },
     },
+    skip: (req) => {
+      // Skip logging for health checks in production
+      return config.server.nodeEnv === 'production' && req.url === '/api/health';
+    }
   })
 );
 
@@ -81,11 +91,8 @@ const gracefulShutdown = async (signal: string) => {
   logger.info(`Received ${signal}, starting graceful shutdown`);
 
   try {
-    // Close database connection
     await prisma.$disconnect();
     logger.info("Database connection closed");
-
-    // Close server
     process.exit(0);
   } catch (error) {
     logger.error("Error during graceful shutdown", { error });
@@ -100,45 +107,38 @@ process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 const runCleanupTasks = async () => {
   try {
     logger.info("Running cleanup tasks");
-
-    // Clean up expired refresh tokens
     await authService.cleanupExpiredTokens();
-
-    // Clean up old summaries
     await summaryService.cleanupOldSummaries();
-
     logger.info("Cleanup tasks completed");
   } catch (error) {
     logger.error("Cleanup tasks failed", { error });
   }
 };
 
-// Run cleanup tasks every 24 hours
+// Run cleanup tasks every 24 hours in production
 if (config.server.nodeEnv === "production") {
-  setInterval(runCleanupTasks, 24 * 60 * 60 * 1000); // 24 hours
+  setInterval(runCleanupTasks, 24 * 60 * 60 * 1000);
 }
 
 // Start server
 const startServer = async () => {
   try {
-    // Test database connection
     await prisma.$connect();
     logger.info("Database connected successfully");
 
-    // Start HTTP server
     const server = app.listen(3000, () => {
       logger.info(`🚀 Knugget API server running on port 3000`);
       logger.info(`📡 Environment: ${config.server.nodeEnv}`);
       logger.info(`🔗 API Base URL: ${config.server.apiBaseUrl}`);
+      logger.info(`🌐 CORS Origins: ${config.cors.allowedOrigins.join(', ')}`);
     });
 
-    // Handle server errors
     server.on("error", (error: NodeJS.ErrnoException) => {
       if (error.syscall !== "listen") {
         throw error;
       }
 
-      const bind = typeof 3000 === "string" ? "Pipe " + 3000 : "Port " + 3000;
+      const bind = "Port 3000";
 
       switch (error.code) {
         case "EACCES":
@@ -161,7 +161,6 @@ const startServer = async () => {
   }
 };
 
-// Start the server
 if (require.main === module) {
   startServer();
 }

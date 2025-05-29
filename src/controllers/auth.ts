@@ -17,7 +17,7 @@ export class AuthController {
       message: 'User registered successfully',
     };
 
-    logger.info('User registration successful', { email });
+    logger.info('User registration successful', { email, userAgent: req.get('User-Agent') });
     res.status(201).json(response);
   });
 
@@ -33,7 +33,11 @@ export class AuthController {
       message: 'Login successful',
     };
 
-    logger.info('User login successful', { email });
+    logger.info('User login successful', { 
+      email, 
+      userAgent: req.get('User-Agent'),
+      origin: req.get('Origin')
+    });
     res.json(response);
   });
 
@@ -129,27 +133,6 @@ export class AuthController {
     };
 
     logger.info('Email verification completed');
-    res.json(response);
-  });
-
-  // Revoke all tokens (logout from all devices)
-  revokeAllTokens = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-    if (!req.user) {
-      const response: ApiResponse = {
-        success: false,
-        error: 'User not authenticated',
-      };
-      return res.status(401).json(response);
-    }
-
-    await authService.revokeAllTokens(req.user.id);
-
-    const response: ApiResponse = {
-      success: true,
-      message: 'All tokens revoked successfully',
-    };
-
-    logger.info('All tokens revoked', { userId: req.user.id });
     res.json(response);
   });
 }
