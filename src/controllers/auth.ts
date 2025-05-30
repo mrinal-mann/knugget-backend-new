@@ -33,8 +33,8 @@ export class AuthController {
       message: 'Login successful',
     };
 
-    logger.info('User login successful', { 
-      email, 
+    logger.info('User login successful', {
+      email,
       userAgent: req.get('User-Agent'),
       origin: req.get('Origin')
     });
@@ -134,6 +134,13 @@ export class AuthController {
 
     logger.info('Email verification completed');
     res.json(response);
+  });
+  revokeAllTokens = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+    if (!req.user) {
+      return res.status(401).json({ success: false, error: 'User not authenticated' });
+    }
+    await authService.revokeAllTokens(req.user.id);
+    res.json({ success: true, message: 'All tokens revoked successfully' });
   });
 }
 
