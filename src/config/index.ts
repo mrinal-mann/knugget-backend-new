@@ -42,7 +42,7 @@ const configSchema = z.object({
   ALLOWED_ORIGINS: z
     .string()
     .default(
-      "http://localhost:3000,http://localhost:8000,https://knugget.com,chrome-extension://"
+      "http://localhost:8000,https://knugget-client.vercel.app,chrome-extension://"
     ),
 
   // Rate Limiting
