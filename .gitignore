@@ -5,3 +5,11 @@ node_modules
 /generated/prisma
 
 logs
+
+# Ignore all files in the logs directory
+logs/*
+
+# Ignore all files in the logs directory
+logs/*
+
+dist
