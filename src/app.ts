@@ -34,9 +34,16 @@ app.use(
       // Allow requests with no origin (mobile apps, Postman, etc.)
       if (!origin) return callback(null, true);
 
+      const allowedOrigins = [
+        'http://localhost:8000',
+        'https://knugget-client.vercel.app',
+        'chrome-extension://',
+        'https://knugget-frontend.onrender.com'
+      ];
+
       // Check if origin is in allowed list or is chrome-extension
       if (
-        config.cors.allowedOrigins.some(
+        allowedOrigins.some(
           (allowedOrigin) =>
             origin.startsWith(allowedOrigin) ||
             (allowedOrigin === "chrome-extension://" &&
@@ -46,10 +53,8 @@ app.use(
         return callback(null, true);
       }
 
-      // Log unauthorized origin attempts in development
-      if (config.server.nodeEnv === 'development') {
-        logger.warn('CORS blocked origin:', { origin });
-      }
+      // Log unauthorized origin attempts
+      logger.warn('CORS blocked origin:', { origin });
 
       callback(new Error("Not allowed by CORS"));
     },
@@ -58,7 +63,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
     exposedHeaders: ["Content-Range", "X-Content-Range"],
     maxAge: 86400, // 24 hours
-    optionsSuccessStatus: 204,
   })
 );
 
