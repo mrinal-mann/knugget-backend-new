@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const summary_1 = require("@/controllers/summary");
+const auth_1 = require("@/middleware/auth");
+const validation_1 = require("@/middleware/validation");
+const rateLimit_1 = require("@/middleware/rateLimit");
+const validation_2 = require("@/middleware/validation");
+const config_1 = require("@/config");
+const router = (0, express_1.Router)();
+router.use(auth_1.authenticate);
+router.post('/generate', rateLimit_1.summaryRateLimit, (0, auth_1.requireCredits)(config_1.config.credits.perSummary), (0, validation_1.validate)(validation_2.generateSummarySchema), summary_1.summaryController.generate);
+router.post('/save', rateLimit_1.generalRateLimit, (0, validation_1.validate)(validation_2.saveSummarySchema), summary_1.summaryController.save);
+router.get('/', rateLimit_1.generalRateLimit, summary_1.summaryController.getSummaries);
+router.get('/stats', rateLimit_1.generalRateLimit, summary_1.summaryController.getStats);
+router.get('/:id', rateLimit_1.generalRateLimit, summary_1.summaryController.getSummaryById);
+router.put("/:id", rateLimit_1.generalRateLimit, (0, validation_1.validate)(validation_2.updateSummarySchema), summary_1.summaryController.updateSummary);
+router.delete('/:id', rateLimit_1.generalRateLimit, summary_1.summaryController.deleteSummary);
+router.get('/video/:videoId', rateLimit_1.generalRateLimit, summary_1.summaryController.getSummaryByVideoId);
+exports.default = router;
+//# sourceMappingURL=summary.js.map

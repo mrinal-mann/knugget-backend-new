@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("@/controllers/auth");
+const auth_2 = require("@/middleware/auth");
+const validation_1 = require("@/middleware/validation");
+const rateLimit_1 = require("@/middleware/rateLimit");
+const validation_2 = require("@/middleware/validation");
+const router = (0, express_1.Router)();
+router.post("/register", rateLimit_1.authRateLimit, (0, validation_1.validate)(validation_2.registerSchema), auth_1.authController.register);
+router.post("/login", rateLimit_1.authRateLimit, (0, validation_1.validate)(validation_2.loginSchema), auth_1.authController.login);
+router.post("/refresh", rateLimit_1.authRateLimit, (0, validation_1.validate)(validation_2.refreshTokenSchema), auth_1.authController.refresh);
+router.post("/forgot-password", rateLimit_1.passwordResetRateLimit, (0, validation_1.validate)(validation_2.forgotPasswordSchema), auth_1.authController.forgotPassword);
+router.post("/reset-password", rateLimit_1.passwordResetRateLimit, (0, validation_1.validate)(validation_2.resetPasswordSchema), auth_1.authController.resetPassword);
+router.post("/verify-email", rateLimit_1.emailVerificationRateLimit, (0, validation_1.validate)(validation_2.verifyEmailSchema), auth_1.authController.verifyEmail);
+router.use(auth_2.authenticate);
+router.post("/logout", (0, validation_1.validate)(validation_2.refreshTokenSchema), auth_1.authController.logout);
+router.get("/me", auth_1.authController.me);
+router.post("/revoke-all-tokens", auth_1.authController.revokeAllTokens);
+exports.default = router;
+//# sourceMappingURL=auth.js.map
