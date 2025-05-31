@@ -8,12 +8,12 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const morgan_1 = __importDefault(require("morgan"));
 const index_1 = require("./config/index");
-const logger_1 = require("@/config/logger");
-const database_1 = require("@/config/database");
-const routes_1 = __importDefault(require("@/routes"));
-const errorHandler_1 = require("@/middleware/errorHandler");
-const auth_1 = require("@/services/auth");
-const summary_1 = require("@/services/summary");
+const logger_1 = require("./config/logger");
+const database_1 = require("./config/database");
+const routes_1 = __importDefault(require("./routes"));
+const errorHandler_1 = require("./middleware/errorHandler");
+const auth_1 = require("./services/auth");
+const summary_1 = require("./services/summary");
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)({
     crossOriginResourcePolicy: { policy: "cross-origin" },

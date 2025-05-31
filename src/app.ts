@@ -3,12 +3,12 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import { config } from "./config/index";
-import { logger } from "@/config/logger";
-import { prisma } from "@/config/database";
-import routes from "@/routes";
-import { errorHandler, notFoundHandler } from "@/middleware/errorHandler";
-import { authService } from "@/services/auth";
-import { summaryService } from "@/services/summary";
+import { logger } from "./config/logger";
+import { prisma } from "./config/database";
+import routes from "./routes";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
+import { authService } from "./services/auth";
+import { summaryService } from "./services/summary";
 
 const app = express();
 
