@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import { config } from "@/config";
+import { config } from "./config/index";
 import { logger } from "@/config/logger";
 import { prisma } from "@/config/database";
 import routes from "@/routes";

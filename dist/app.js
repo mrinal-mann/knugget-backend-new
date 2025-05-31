@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const morgan_1 = __importDefault(require("morgan"));
-const config_1 = require("@/config");
+const index_1 = require("./config/index");
 const logger_1 = require("@/config/logger");
 const database_1 = require("@/config/database");
 const routes_1 = __importDefault(require("@/routes"));
@@ -30,12 +30,12 @@ app.use((0, cors_1.default)({
     origin: (origin, callback) => {
         if (!origin)
             return callback(null, true);
-        if (config_1.config.cors.allowedOrigins.some((allowedOrigin) => origin.startsWith(allowedOrigin) ||
+        if (index_1.config.cors.allowedOrigins.some((allowedOrigin) => origin.startsWith(allowedOrigin) ||
             (allowedOrigin === "chrome-extension://" &&
                 origin.startsWith("chrome-extension://")))) {
             return callback(null, true);
         }
-        if (config_1.config.server.nodeEnv === 'development') {
+        if (index_1.config.server.nodeEnv === 'development') {
             logger_1.logger.warn('CORS blocked origin:', { origin });
         }
         callback(new Error("Not allowed by CORS"));
@@ -54,7 +54,7 @@ app.use((0, morgan_1.default)("combined", {
         },
     },
     skip: (req) => {
-        return config_1.config.server.nodeEnv === 'production' && req.url === '/api/health';
+        return index_1.config.server.nodeEnv === 'production' && req.url === '/api/health';
     }
 }));
 app.use("/api", routes_1.default);
@@ -85,7 +85,7 @@ const runCleanupTasks = async () => {
         logger_1.logger.error("Cleanup tasks failed", { error });
     }
 };
-if (config_1.config.server.nodeEnv === "production") {
+if (index_1.config.server.nodeEnv === "production") {
     setInterval(runCleanupTasks, 24 * 60 * 60 * 1000);
 }
 const startServer = async () => {
@@ -94,9 +94,9 @@ const startServer = async () => {
         logger_1.logger.info("Database connected successfully");
         const server = app.listen(process.env.PORT, () => {
             logger_1.logger.info(`🚀 Knugget API server running on port ${process.env.PORT}`);
-            logger_1.logger.info(`📡 Environment: ${config_1.config.server.nodeEnv}`);
-            logger_1.logger.info(`🔗 API Base URL: ${config_1.config.server.apiBaseUrl}`);
-            logger_1.logger.info(`🌐 CORS Origins: ${config_1.config.cors.allowedOrigins.join(', ')}`);
+            logger_1.logger.info(`📡 Environment: ${index_1.config.server.nodeEnv}`);
+            logger_1.logger.info(`🔗 API Base URL: ${index_1.config.server.apiBaseUrl}`);
+            logger_1.logger.info(`🌐 CORS Origins: ${index_1.config.cors.allowedOrigins.join(', ')}`);
         });
         server.on("error", (error) => {
             if (error.syscall !== "listen") {
