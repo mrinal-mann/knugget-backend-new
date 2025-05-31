@@ -1,8 +1,8 @@
 import rateLimit from "express-rate-limit";
 import { Request, Response } from "express";
-import { config } from "@/config";
-import { AuthenticatedRequest, ApiResponse } from "@/types";
-import { logger } from "@/config/logger";
+import { config } from "../config";
+import { AuthenticatedRequest, ApiResponse } from "../types";
+import { logger } from "../config/logger";
 
 // Create rate limiter based on user plan
 const createRateLimiter = (

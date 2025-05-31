@@ -1,14 +1,14 @@
-import OpenAI from 'openai';
-import { config } from '@/config';
-import { logger } from '@/config/logger';
-import { AppError } from '@/middleware/errorHandler';
+import OpenAI from "openai";
+import { config } from "../config";
+import { logger } from "../config/logger";
+import { AppError } from "../middleware/errorHandler";
 import {
   TranscriptSegment,
   VideoMetadata,
   OpenAISummaryResponse,
   ServiceResponse,
   MAX_TRANSCRIPT_LENGTH,
-} from '@/types';
+} from "../types";
 
 export class OpenAIService {
   private client: OpenAI;

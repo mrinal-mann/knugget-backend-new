@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { userController } from "@/controllers/user";
-import { authenticate } from "@/middleware/auth";
-import { validate } from "@/middleware/validation";
-import { generalRateLimit, strictRateLimit } from "@/middleware/rateLimit";
-import { updateProfileSchema } from "@/middleware/validation";
+import { userController } from "../controllers/user";
+import { authenticate } from "../middleware/auth";
+import { validate } from "../middleware/validation";
+import { generalRateLimit, strictRateLimit } from "../middleware/rateLimit";
+import { updateProfileSchema } from "../middleware/validation";
 
 const router = Router();
 

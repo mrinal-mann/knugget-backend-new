@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const summary_1 = require("@/controllers/summary");
-const auth_1 = require("@/middleware/auth");
-const validation_1 = require("@/middleware/validation");
-const rateLimit_1 = require("@/middleware/rateLimit");
-const validation_2 = require("@/middleware/validation");
-const config_1 = require("@/config");
+const summary_1 = require("../controllers/summary");
+const auth_1 = require("../middleware/auth");
+const validation_1 = require("../middleware/validation");
+const rateLimit_1 = require("../middleware/rateLimit");
+const validation_2 = require("../middleware/validation");
+const config_1 = require("../config");
 const router = (0, express_1.Router)();
 router.use(auth_1.authenticate);
 router.post('/generate', rateLimit_1.summaryRateLimit, (0, auth_1.requireCredits)(config_1.config.credits.perSummary), (0, validation_1.validate)(validation_2.generateSummarySchema), summary_1.summaryController.generate);

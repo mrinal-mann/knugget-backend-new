@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = exports.AuthController = void 0;
-const auth_1 = require("@/services/auth");
-const errorHandler_1 = require("@/middleware/errorHandler");
-const logger_1 = require("@/config/logger");
+const auth_1 = require("../services/auth");
+const errorHandler_1 = require("../middleware/errorHandler");
+const logger_1 = require("../config/logger");
 class AuthController {
     constructor() {
         this.register = (0, errorHandler_1.catchAsync)(async (req, res) => {

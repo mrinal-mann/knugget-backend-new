@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.requireCredits = exports.requirePlan = exports.authenticate = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const supabase_js_1 = require("@supabase/supabase-js");
-const database_1 = require("@/config/database");
-const config_1 = require("@/config");
-const logger_1 = require("@/config/logger");
+const database_1 = require("../config/database");
+const config_1 = require("../config");
+const logger_1 = require("../config/logger");
 const supabase = (0, supabase_js_1.createClient)(config_1.config.supabase.url, config_1.config.supabase.serviceKey);
 const authenticate = async (req, res, next) => {
     try {

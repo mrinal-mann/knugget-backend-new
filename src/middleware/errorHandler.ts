@@ -1,10 +1,9 @@
-// src/middleware/errorHandler.ts - FIXED: Comprehensive error handling with user notifications
 import { Request, Response, NextFunction } from "express";
 import { Prisma } from "@prisma/client";
 import { ZodError, ZodIssue } from "zod";
-import { config } from "@/config";
-import { logger } from "@/config/logger";
-import { ApiResponse, ApiError } from "@/types";
+import { config } from "../config";
+import { logger } from "../config/logger";
+import { ApiResponse, ApiError } from "../types";
 
 // Extended error response interface
 interface ErrorResponse extends ApiResponse {

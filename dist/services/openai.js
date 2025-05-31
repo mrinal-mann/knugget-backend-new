@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openaiService = exports.OpenAIService = void 0;
 const openai_1 = __importDefault(require("openai"));
-const config_1 = require("@/config");
-const logger_1 = require("@/config/logger");
-const errorHandler_1 = require("@/middleware/errorHandler");
-const types_1 = require("@/types");
+const config_1 = require("../config");
+const logger_1 = require("../config/logger");
+const errorHandler_1 = require("../middleware/errorHandler");
+const types_1 = require("../types");
 class OpenAIService {
     constructor() {
         this.client = new openai_1.default({

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = exports.UserController = void 0;
-const user_1 = require("@/services/user");
-const errorHandler_1 = require("@/middleware/errorHandler");
-const logger_1 = require("@/config/logger");
+const user_1 = require("../services/user");
+const errorHandler_1 = require("../middleware/errorHandler");
+const logger_1 = require("../config/logger");
 class UserController {
     constructor() {
         this.getProfile = (0, errorHandler_1.catchAsync)(async (req, res) => {

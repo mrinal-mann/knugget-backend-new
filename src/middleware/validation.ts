@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Request, Response, NextFunction } from "express";
-import { ApiResponse, ValidationError } from "@/types";
+import { ApiResponse, ValidationError } from "../types";
 
 // Auth validation schemas
 export const registerSchema = z.object({

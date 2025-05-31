@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { createClient } from "@supabase/supabase-js";
-import { prisma } from "@/config/database";
-import { config } from "@/config";
-import { AuthenticatedRequest, JwtPayload, ApiResponse } from "@/types";
-import { logger } from "@/config/logger";
+import { prisma } from "../config/database";
+import { config } from "../config";
+import { AuthenticatedRequest, JwtPayload, ApiResponse } from "../types";
+import { logger } from "../config/logger";
 
 const supabase = createClient(config.supabase.url, config.supabase.serviceKey);
 

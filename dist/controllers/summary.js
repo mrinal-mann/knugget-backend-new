@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.summaryController = exports.SummaryController = void 0;
-const summary_1 = require("@/services/summary");
-const errorHandler_1 = require("@/middleware/errorHandler");
-const logger_1 = require("@/config/logger");
+const summary_1 = require("../services/summary");
+const errorHandler_1 = require("../middleware/errorHandler");
+const logger_1 = require("../config/logger");
 class SummaryController {
     constructor() {
         this.generate = (0, errorHandler_1.catchAsync)(async (req, res) => {

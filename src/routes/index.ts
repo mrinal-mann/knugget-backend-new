@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { ApiResponse } from '@/types';
-import { openaiService } from '@/services/openai';
-import { prisma } from '@/config/database';
-import { logger } from '@/config/logger';
+import { ApiResponse } from '../types';
+import { openaiService } from '../services/openai';
+import { prisma } from '../config/database';
+import { logger } from '../config/logger';
 import authRoutes from './auth';
 import summaryRoutes from './summary';
 import userRoutes from './user';

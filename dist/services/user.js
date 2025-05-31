@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = exports.UserService = void 0;
-const database_1 = require("@/config/database");
-const config_1 = require("@/config");
-const logger_1 = require("@/config/logger");
-const errorHandler_1 = require("@/middleware/errorHandler");
+const database_1 = require("../config/database");
+const config_1 = require("../config");
+const logger_1 = require("../config/logger");
+const errorHandler_1 = require("../middleware/errorHandler");
 class UserService {
     async getUserProfile(userId) {
         try {

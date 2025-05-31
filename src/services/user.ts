@@ -1,14 +1,14 @@
 import { UserPlan } from "@prisma/client";
-import { prisma } from "@/config/database";
-import { config } from "@/config";
-import { logger } from "@/config/logger";
-import { AppError } from "@/middleware/errorHandler";
+import { prisma } from "../config/database";
+import { config } from "../config";
+import { logger } from "../config/logger";
+import { AppError } from "../middleware/errorHandler";
 import {
   UserProfile,
   UserStats,
   ServiceResponse,
   UpdateUserData,
-} from "@/types";
+} from "../types";
 
 export class UserService {
   // Get user profile

@@ -1,8 +1,8 @@
 import { Response } from 'express';
-import { authService } from '@/services/auth';
-import { AuthenticatedRequest, ApiResponse, RegisterDto, LoginDto } from '@/types';
-import { catchAsync } from '@/middleware/errorHandler';
-import { logger } from '@/config/logger';
+import { authService } from '../services/auth';
+import { AuthenticatedRequest, ApiResponse, RegisterDto, LoginDto } from '../types';
+import { catchAsync } from '../middleware/errorHandler';
+import { logger } from '../config/logger';
 
 export class AuthController {
   // Register new user

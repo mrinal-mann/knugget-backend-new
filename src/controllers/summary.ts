@@ -1,14 +1,14 @@
 import { Response } from 'express';
-import { summaryService } from '@/services/summary';
+import { summaryService } from '../services/summary';
 import {
   AuthenticatedRequest,
   ApiResponse,
   GenerateSummaryDto,
   UpdateSummaryDto,
   SummaryQueryParams,
-} from '@/types';
-import { catchAsync } from '@/middleware/errorHandler';
-import { logger } from '@/config/logger';
+} from '../types';
+import { catchAsync } from '../middleware/errorHandler';
+import { logger } from '../config/logger';
 
 export class SummaryController {
   // Generate AI summary from transcript

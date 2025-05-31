@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.summaryService = exports.SummaryService = void 0;
-const database_1 = require("@/config/database");
-const config_1 = require("@/config");
-const logger_1 = require("@/config/logger");
-const errorHandler_1 = require("@/middleware/errorHandler");
+const database_1 = require("../config/database");
+const config_1 = require("../config");
+const logger_1 = require("../config/logger");
+const errorHandler_1 = require("../middleware/errorHandler");
 const openai_1 = require("./openai");
-const types_1 = require("@/types");
+const types_1 = require("../types");
 class SummaryService {
     async generateSummary(userId, data) {
         try {

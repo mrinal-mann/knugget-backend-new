@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
-import { prisma } from "@/config/database";
-import { config } from "@/config";
-import { logger } from "@/config/logger";
-import { AppError } from "@/middleware/errorHandler";
+import { prisma } from "../config/database";
+import { config } from "../config";
+import { logger } from "../config/logger";
+import { AppError } from "../middleware/errorHandler";
 import { openaiService } from "./openai";
 import {
   SummaryData,
@@ -14,7 +14,7 @@ import {
   TranscriptSegment,
   VideoMetadata,
   MAX_SUMMARY_HISTORY,
-} from "@/types";
+} from "../types";
 
 export class SummaryService {
   // Generate AI summary from transcript

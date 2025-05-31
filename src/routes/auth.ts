@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { authController } from "@/controllers/auth";
-import { authenticate } from "@/middleware/auth";
-import { validate } from "@/middleware/validation";
+import { authController } from "../controllers/auth";
+import { authenticate } from "../middleware/auth";
+import { validate } from "../middleware/validation";
 import {
   authRateLimit,
   passwordResetRateLimit,
   emailVerificationRateLimit,
-} from "@/middleware/rateLimit";
+} from "../middleware/rateLimit";
 import {
   registerSchema,
   loginSchema,
@@ -14,7 +14,7 @@ import {
   forgotPasswordSchema,
   resetPasswordSchema,
   verifyEmailSchema,
-} from "@/middleware/validation";
+} from "../middleware/validation";
 
 const router = Router();
 

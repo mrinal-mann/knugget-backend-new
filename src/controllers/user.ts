@@ -1,12 +1,12 @@
 import { Response } from 'express';
-import { userService } from '@/services/user';
+import { userService } from '../services/user';
 import {
   AuthenticatedRequest,
   ApiResponse,
   UpdateProfileDto,
-} from '@/types';
-import { catchAsync } from '@/middleware/errorHandler';
-import { logger } from '@/config/logger';
+} from '../types';
+import { catchAsync } from '../middleware/errorHandler';
+import { logger } from '../config/logger';
 
 export class UserController {
   // Get user profile

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const user_1 = require("@/controllers/user");
-const auth_1 = require("@/middleware/auth");
-const validation_1 = require("@/middleware/validation");
-const rateLimit_1 = require("@/middleware/rateLimit");
-const validation_2 = require("@/middleware/validation");
+const user_1 = require("../controllers/user");
+const auth_1 = require("../middleware/auth");
+const validation_1 = require("../middleware/validation");
+const rateLimit_1 = require("../middleware/rateLimit");
+const validation_2 = require("../middleware/validation");
 const router = (0, express_1.Router)();
 router.use(auth_1.authenticate);
 router.get("/profile", rateLimit_1.generalRateLimit, user_1.userController.getProfile);

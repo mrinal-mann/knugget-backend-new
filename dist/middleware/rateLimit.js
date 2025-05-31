@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.emailVerificationRateLimit = exports.passwordResetRateLimit = exports.strictRateLimit = exports.summaryRateLimit = exports.authRateLimit = exports.generalRateLimit = void 0;
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
-const config_1 = require("@/config");
-const logger_1 = require("@/config/logger");
+const config_1 = require("../config");
+const logger_1 = require("../config/logger");
 const createRateLimiter = (maxRequests, windowMs = config_1.config.rateLimit.windowMs) => {
     return (0, express_rate_limit_1.default)({
         windowMs,

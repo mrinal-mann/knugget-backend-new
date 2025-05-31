@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { summaryController } from '@/controllers/summary';
-import { authenticate, requireCredits } from '@/middleware/auth';
-import { validate } from '@/middleware/validation';
-import { summaryRateLimit, generalRateLimit } from '@/middleware/rateLimit';
+import { summaryController } from '../controllers/summary';
+import { authenticate, requireCredits } from '../middleware/auth';
+import { validate } from '../middleware/validation';
+import { summaryRateLimit, generalRateLimit } from '../middleware/rateLimit';
 import {
   generateSummarySchema,
   saveSummarySchema,
   updateSummarySchema,
-} from '@/middleware/validation';
-import { config } from '@/config';
+} from '../middleware/validation';
+import { config } from '../config';
 
 const router = Router();
 

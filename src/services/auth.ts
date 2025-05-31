@@ -2,10 +2,10 @@ import bcrypt from "bcryptjs";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { createClient } from "@supabase/supabase-js";
-import { prisma } from "@/config/database";
-import { config } from "@/config";
-import { logger } from "@/config/logger";
-import { AppError } from "@/middleware/errorHandler";
+import { prisma } from "../config/database";
+import { config } from "../config";
+import { logger } from "../config/logger";
+import { AppError } from "../middleware/errorHandler";
 import {
   AuthUser,
   JwtPayload,
@@ -15,7 +15,7 @@ import {
   RegisterDto,
   LoginDto,
   CreateUserData,
-} from "@/types";
+} from "../types";
 
 const supabase = createClient(config.supabase.url, config.supabase.serviceKey);
 

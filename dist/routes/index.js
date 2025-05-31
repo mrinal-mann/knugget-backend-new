@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const openai_1 = require("@/services/openai");
-const database_1 = require("@/config/database");
-const logger_1 = require("@/config/logger");
+const openai_1 = require("../services/openai");
+const database_1 = require("../config/database");
+const logger_1 = require("../config/logger");
 const auth_1 = __importDefault(require("./auth"));
 const summary_1 = __importDefault(require("./summary"));
 const user_1 = __importDefault(require("./user"));
